@@ -4,8 +4,12 @@ import MoviesItem from "./MoviesItem";
 const Movies = () => {
   return (
     <>
-      <div className="mt-8 text-bold text-2xl text-center">Trending Movies</div>
-      <div className="flex">
+      <div className="mt-8
+      text-center
+      font-bold 
+      text-3xl">Trending Movies</div>
+      <div className="flex
+      justify-center">
         <MoviesItem />
       </div>
     </>
