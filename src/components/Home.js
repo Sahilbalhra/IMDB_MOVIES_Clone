@@ -12,7 +12,7 @@ const Home = () => {
       <NavBar />
       <Routes>
         <Route
-          path="/movies"
+          path="/"
           element={
             <>
               <Banner />

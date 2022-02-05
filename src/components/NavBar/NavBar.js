@@ -16,7 +16,7 @@ const NavBar = () => {
           />
           <Link to="/" className="text-white font-bold 
           text-xl
-          md:text-3xl">IMDB Clone</Link>
+          md:text-3xl">TMDB Clone</Link>
       
       <Link to="/favourites" className="text-white font-bold text-xl
       md:text-3xl">Favourites</Link>

@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Banner = () => {
-  return <div className={`bg-[url("https://stylecaster.com/wp-content/uploads/2021/11/Spider-Man-No-Way-Home-2.jpg")]
+  const [movies, setMovies] = useState([]);
+  const tUrl =
+    "https://api.themoviedb.org/3/trending/movie/week?api_key=0bae37183e022e230d9a998151559acd";
+  useEffect(() => {
+    //getting the data from api
+    axios.get(tUrl).then((res) => {
+      // console.log(res.data.results);
+      setMovies(res.data.results[0]);
+    });
+  }, []);
+  return (
+    <div
+      className={`bg-[url(https://image.tmdb.org/t/p/original${movies.backdrop_path})]
   h-[40vh]
-  md:h-[60vh]
-  md:w-[100vw] 
+  md:h-[50vh]
+  bg-center
   bg-cover 
   flex items-end 
-  justify-center`}>
-      <div className='text-3xl text-white p-4 bg-gray-900 bg-opacity-50 w-full flex justify-center'>Spider-Man:No way home</div>
-  </div>;
+  `}
+    >
+      <div className="text-3xl text-white p-6 bg-gray-900 bg-opacity-50 w-full flex justify-center">
+        {movies.title}
+      </div>
+    </div>
+  );
 };
 
 export default Banner;
