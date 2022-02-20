@@ -1,74 +1,114 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import MoviesItem from "./MoviesItem";
-import { BallTriangle } from "react-loader-spinner";
+// import MoviesItem from "./MoviesItem";
+import { Oval } from "react-loader-spinner";
 import Pagination from "../Pagination";
 
-const Movies = () => {
-  const [movies, setMovies] = useState([]);
-  //fav
-  const [fav, setFav] = useState([]);
-   //getting all data of api to saving it in the fav tab
-   let add = (movies) => {
-    let newArray = [...fav, movies];
-    setFav([...newArray]);
-    console.log(setFav);
-  };
-  //page number
-  const [pageNumber, setPageNumber] = useState(1);
-  const previoushandler = () => {
-    if (pageNumber > 1) {
-      setPageNumber(pageNumber - 1);
-    }
-  };
-  const nexthandler = () => {
-    setPageNumber(pageNumber + 1);
-  };
+function Movies() {
+
+  const [movies, setMovies] = useState([])
+  const [page, setPage] = useState(1)
+  const [hover, setHover] = useState('')
+  const [favourites, setFavourites] = useState([])
+
+  function goAhead() {
+      setPage(page + 1)
+  }
+  function goBack() {
+      if (page > 1) {
+          setPage(page - 1)
+      }
+  }
+  useEffect(function () {
+
+      axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=0bae37183e022e230d9a998151559acd&page=${page}`).then((res) => {
+          console.table(res.data.results)
+          setMovies(res.data.results);
+      }
+      )
+  }, [page])
+
+  let add = (movie) => {
+      let newArray = [...favourites, movie]
+      setFavourites([...newArray])
+      console.log(newArray)
+  }
+
+  return <>
+      <div className="mb-8 text-center">
+          <div className="mt-8 mb-8 font-bold text-2xl text-center">Trending Movies</div>
+          {
+              movies.length == 0 ?
+                  <div className='flex justify-center'>
+                      <Oval
+                          heigth="100"
+                          width="100"
+                          color='grey'
+                          secondaryColor='grey'
+                          ariaLabel='loading'
+                      />
+                  </div> :
+                  <div className="flex flex-wrap justify-center">
+                      {
+                          movies.map((movie) => (
+                              <div className={`
+                                  bg-[url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path})] 
+                                  md:h-[30vh] md:w-[250px] 
+                                  h-[25vh] w-[150px]
+                                  bg-center bg-cover
+                                  rounded-xl
+                                  flex items-end
+                                  m-4
+                                  hover:scale-110
+                                  ease-out duration-300
+                                  relative
+                              `}
+                                  onMouseEnter={() => {
+                                      setHover(movie.id)
+                                  }}
+
+                                  onMouseLeave={() =>
+                                      setHover("")}
+                              >
+                                  {
+                                      hover == movie.id && <>{
+                                          !favourites.find((m) => m.id == movie.id) ?
+                                              <div className='absolute top-2 right-2
+                                  p-2
+                                  bg-gray-800
+                                  rounded-xl
+                                  text-xl
+                                  cursor-pointer
+                                  '
+                                                  onClick={() => add(movie)}
+                                              >😍</div> : 
+                                              <div className='absolute top-2 right-2
+                                  p-2
+                                  bg-gray-800
+                                  rounded-xl
+                                  text-xl
+                                  cursor-pointer
+                                  '
+                                                  onClick={() => add(movie)}
+                                              >❌</div>
+
+                                      }
 
 
-  useEffect(() => {
-      //trending movies url
-  let tUrl =
-  `https://api.themoviedb.org/3/trending/movie/week?api_key=0bae37183e022e230d9a998151559acd&page=${pageNumber}`;
-    //getting the data from api
-    axios.get(tUrl).then((res) => {
-      // console.log(res.data.results);
-      setMovies(res.data.results);
-    });
-  }, [pageNumber]);
+                                      </>
+                                  }
 
-//   const movieID=(data)=>{
-//  console.log(data);
-//   }
+                                  <div className="w-full bg-gray-900 text-white py-2 font-bold text-center rounded-b-xl">{movie.title} </div>
+                              </div>
+                          ))
+                      }
 
-  return (
-    <>
-      <div
-        className="mt-8
-        mb-8
-      text-center
-      font-bold 
-      text-3xl"
-      >
-        Trending Movies
+                  </div>
+          }
+
       </div>
-      {/* spinner and movies card  condition*/}
-      {!movies.length ? (
-        <div className="flex justify-center ">
-          <BallTriangle color="black" height={40} width={40} />
-        </div>
-      ) : (
-        <div className="flex flex-wrap justify-center" >
-          {movies.map((movie) => {
-            return (
-              <MoviesItem title={movie.title} Image={movie.backdrop_path} id={movie.id} add={add}/>
-            );
-          })}
-        </div>
-      )}
-      <Pagination page={pageNumber} next={nexthandler} prev={previoushandler}/>
-    </>
-  );
-};
+      <Pagination pageProp={page} goBack={goBack} goAhead={goAhead} />
+  </>
+}
 
 export default Movies;
