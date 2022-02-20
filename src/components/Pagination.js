@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Pagination = () => {
-  const [pageNumber, setPageNumber] = useState(1);
-  const previoushandler = () => {
-    if (pageNumber > 1) {
-      setPageNumber(pageNumber - 1);
-    }
-  };
-  const nexthandler = () => {
-    setPageNumber(pageNumber + 1);
-  };
+const Pagination = (props) => {
+  let {page,next,prev}=props;
+ 
   return (
     <>
       <div className="w-full flex justify-center mt-8">
@@ -20,7 +13,7 @@ const Pagination = () => {
          rounded-l-xl
          font-bold
          hover:scale-110 "
-          onClick={previoushandler}
+          onClick={prev}
         >
           Previous
         </button>
@@ -30,7 +23,7 @@ const Pagination = () => {
          font-bold
          "
         >
-          {pageNumber}
+          {page}
         </button>
         <button
           className="p-2
@@ -39,7 +32,7 @@ const Pagination = () => {
          rounded-r-xl
          font-bold
          hover:scale-110"
-          onClick={nexthandler}
+          onClick={next}
         >
           Next
         </button>

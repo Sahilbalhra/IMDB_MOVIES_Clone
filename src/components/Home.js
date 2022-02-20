@@ -2,7 +2,6 @@ import React from "react";
 import Banner from "./Banner/Banner";
 import Movies from "./Movies/Movies";
 import NavBar from "./NavBar/NavBar";
-import Pagination from "./Pagination";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Favourites from "./Favourites";
 
@@ -17,7 +16,6 @@ const Home = () => {
             <>
               <Banner />
               <Movies />
-              <Pagination />
             </>
           }
         ></Route>
