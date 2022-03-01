@@ -20,20 +20,19 @@ function Movies() {
   }
   useEffect(
     function () {
-        //getting fav movies form local storage
-        let oldFav=localStorage.getItem("tmdb");
-        //string to original data
-        oldFav=JSON.parse(oldFav)|| [];
-        //setting the movies for reloading file
-        setFavourites([...oldFav]);
+      //getting fav movies form local storage
+      let oldFav = localStorage.getItem("tmdb");
+      //string to original data
+      oldFav = JSON.parse(oldFav) || [];
+      //setting the movies for reloading file
+      setFavourites([...oldFav]);
       axios
         .get(
           `https://api.themoviedb.org/3/trending/movie/week?api_key=0bae37183e022e230d9a998151559acd&page=${page}`
         )
         .then((res) => {
-        //   console.table(res.data.results);
+          //   console.table(res.data.results);
           setMovies(res.data.results);
-        
         });
     },
     [page]
@@ -43,15 +42,15 @@ function Movies() {
     let newArray = [...favourites, movie];
     setFavourites([...newArray]);
     //saving the fav movies to local storage
-    localStorage.setItem("tmdb",JSON.stringify(newArray));
+    localStorage.setItem("tmdb", JSON.stringify(newArray));
     // console.log(newArray);
   };
 
-  let del =(movie)=>{
-    let newArray =favourites.filter((m)=>m.id!=movie.id);
+  let del = (movie) => {
+    let newArray = favourites.filter((m) => m.id !== movie.id);
     setFavourites([...newArray]);
-    localStorage.setItem("tmdb",JSON.stringify(newArray));
-  }
+    localStorage.setItem("tmdb", JSON.stringify(newArray));
+  };
 
   return (
     <>

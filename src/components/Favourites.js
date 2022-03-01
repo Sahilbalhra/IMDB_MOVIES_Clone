@@ -24,8 +24,13 @@ const Favourites = () => {
     37: "Western",
   };
   const [curGenre, setCurGenre] = useState("All Genres");
+  const [rating, setRating] = useState(0);
+  const [popularity, setPopularity] = useState(0);
   const [favourites, setFavourites] = useState([]);
+  const [search, setSearch] = useState("")
   const [genres, setGenres] = useState([]);
+  const [rows, setRows] = useState(4);
+  const [curPage, setCurPage] = useState(1);
   //for local storage
   useEffect(function () {
     //getting fav movies form local storage
@@ -44,7 +49,7 @@ const Favourites = () => {
   }, [favourites]);
 
   let del = (movie) => {
-    let newArray = favourites.filter((m) => m.id != movie.id);
+    let newArray = favourites.filter((m) => m.id !== movie.id);
     setFavourites([...newArray]);
     localStorage.setItem("tmdb", JSON.stringify(newArray));
   };
@@ -52,7 +57,55 @@ const Favourites = () => {
      // filtered movies 
   let filteredMovies = []
 
-  filteredMovies = curGenre == "All Genres" ? favourites : favourites.filter((movie) => genreids[movie.genre_ids[0]] == curGenre)
+  filteredMovies = curGenre === "All Genres" ? favourites : favourites.filter((movie) => genreids[movie.genre_ids[0]] === curGenre)
+
+   // sorting 
+   if (rating === 1) {
+    filteredMovies = filteredMovies.sort(function (objA, objB) {
+      return objA.vote_average - objB.vote_average
+    })
+  } else if (rating === -1) {
+    filteredMovies = filteredMovies.sort(function (objA, objB) {
+      return objB.vote_average - objA.vote_average
+    })
+  }
+
+  if (popularity === 1) {
+    filteredMovies = filteredMovies.sort(function (objA, objB) {
+      return objA.popularity - objB.popularity
+    })
+  } else if (popularity === -1) {
+    filteredMovies = filteredMovies.sort(function (objA, objB) {
+      return objB.popularity - objA.popularity
+    })
+  }
+
+  
+  //searching
+  //converting them to lower case letter 
+  filteredMovies = filteredMovies.filter((movie) =>
+    movie.title.toLowerCase().includes(search.toLowerCase())
+  )
+  // pagination
+  let maxPage = Math.ceil(filteredMovies.length / rows);
+  let si = (curPage - 1) * rows
+  let ei = Number(si) + Number(rows)
+
+  filteredMovies = filteredMovies.slice(si, ei);
+
+  let goBack = () => {
+    if (curPage > 1) {
+      setCurPage(curPage - 1)
+    }
+  }
+
+  let goAhead = () => {
+    if (curPage < maxPage) {
+      setCurPage(curPage + 1)
+    }
+  }
+
+
   //table content
   return (
     <>
@@ -60,12 +113,12 @@ const Favourites = () => {
         {genres.map((genre) => (
           <button
             className={
-              curGenre == genre
+              curGenre === genre
                 ? "m-2 text-lg p-1 px-2 bg-blue-400 text-white rounded-xl font-bold"
                 : "m-2 text-lg p-1 px-2 bg-gray-400 hover:bg-blue-400 text-white rounded-xl font-bold"
             }
             onClick={() => {
-              // setCurPage(1);
+              setCurPage(1);
               setCurGenre(genre);
             }}
           >
@@ -88,12 +141,14 @@ const Favourites = () => {
         <input
           type="text"
           className="border border-3 text-center p-1 m-2 text-black rounded-xl"
+          value={search} onChange={(e)=>setSearch(e.target.value)}
           placeholder="Search"
         />
         <input
           type="number"
           className="border border-3 text-center p-1 m-2 text-black rounded-xl"
-          placeholder="Rows"
+          value={rows} onChange={(e)=>setRows(e.target.value)}
+          placeholder="Rows in Table"
         />
       </div>
       {/* table */}
@@ -120,18 +175,18 @@ const Favourites = () => {
                           src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png"
                           className="mr-2 cursor-pointer"
                           alt=""
-                          // onClick={() => {
-                          //   setPopularity(0);
-                          //   setRating(-1);
-                          // }}
+                          onClick={() => {
+                            setPopularity(0);
+                            setRating(-1);
+                          }}
                         />
                         Rating
                         <img
                           src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"
-                          // onClick={() => {
-                          //   setPopularity(0);
-                          //   setRating(1);
-                          // }}
+                          onClick={() => {
+                            setPopularity(0);
+                            setRating(1);
+                          }}
                           alt=""
                           className="ml-2 mr-2 cursor-pointer"
                         />
@@ -146,18 +201,18 @@ const Favourites = () => {
                           src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png"
                           className="mr-2 cursor-pointer"
                           alt=""
-                          // onClick={() => {
-                          //   setPopularity(0);
-                          //   setRating(-1);
-                          // }}
+                          onClick={() => {
+                            setPopularity(-1);
+                            setRating(0);
+                          }}
                         />
                         Popularity
                         <img
                           src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"
-                          // onClick={() => {
-                          //   setPopularity(0);
-                          //   setRating(1);
-                          // }}
+                          onClick={() => {
+                            setPopularity(1);
+                            setRating(0);
+                          }}
                           alt=""
                           className="ml-2 mr-2 cursor-pointer"
                         />
@@ -235,7 +290,7 @@ const Favourites = () => {
         </div>
       </div>
 
-      <Pagination />
+      <Pagination page={curPage} prev={goBack} next={goAhead} />
     </>
   );
 };
