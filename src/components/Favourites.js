@@ -48,6 +48,11 @@ const Favourites = () => {
     setFavourites([...newArray]);
     localStorage.setItem("tmdb", JSON.stringify(newArray));
   };
+  
+     // filtered movies 
+  let filteredMovies = []
+
+  filteredMovies = curGenre == "All Genres" ? favourites : favourites.filter((movie) => genreids[movie.genre_ids[0]] == curGenre)
   //table content
   return (
     <>
@@ -174,7 +179,7 @@ const Favourites = () => {
                 </thead>
                 {/* table body */}
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {favourites.map((movie) => (
+                  {filteredMovies.map((movie) => (
                     <tr key={movie.id}>
                       {/* movies img */}
                       <td className="px-6 py-4 whitespace-nowrap">
