@@ -85,7 +85,7 @@ const Favourites = () => {
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
                         <div className="flex">
-                        <img
+                          <img
                             src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png"
                             className="mr-2 cursor-pointer"
                             alt=""
@@ -93,7 +93,7 @@ const Favourites = () => {
                             //   setPopularity(0);
                             //   setRating(-1);
                             // }}
-                          />          
+                          />
                           Popularity
                           <img
                             src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"
@@ -104,7 +104,6 @@ const Favourites = () => {
                             alt=""
                             className="ml-2 mr-2 cursor-pointer"
                           />
-                          
                         </div>
                       </th>
                       <th
@@ -121,7 +120,58 @@ const Favourites = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200"></tbody>
+                  {/* table body */}
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {filteredMovies.map((movie) => (
+                      <tr key={movie.id}>
+                        {/* movies img */}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 md:h-[100px] md:w-[180px]">
+                              <img
+                                className="hidden md:block md:h-[100px] md:w-[180px]"
+                                src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
+                                alt=""
+                              />
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900 font-bold">
+                                {movie.title}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        {/* movies votes */}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {movie.vote_average}
+                          </div>
+                        </td>
+                        {/* movies popularity */}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {movie.popularity}
+                          </div>
+                        </td>
+                        {/* type of movies */}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            {genreids[movie.genre_ids[0]]}
+                          </span>
+                        </td>
+                        {/* delete button */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                          <button
+                            href="#"
+                            className="text-red-600 hover:text-red-900"
+                            onClick={() => del(movie)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>

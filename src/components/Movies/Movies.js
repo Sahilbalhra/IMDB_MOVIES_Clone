@@ -27,6 +27,12 @@ function Movies() {
         .then((res) => {
         //   console.table(res.data.results);
           setMovies(res.data.results);
+          //getting fav movies form local storage
+          let oldFav=localStorage.getItem("tmdb");
+          //string to original data
+          oldFav=JSON.parse(oldFav);
+          //setting the movies for reloading file
+          setFavourites([...oldFav]);
         });
     },
     [page]
@@ -35,8 +41,16 @@ function Movies() {
   let add = (movie) => {
     let newArray = [...favourites, movie];
     setFavourites([...newArray]);
+    //saving the fav movies to local storage
+    localStorage.setItem("tmdb",JSON.stringify(newArray));
     // console.log(newArray);
   };
+
+  let del =(movie)=>{
+    let newArray =favourites.filter((m)=>m.id!=movie.id);
+    setFavourites([...newArray]);
+    localStorage.setItem("tmdb",JSON.stringify(newArray));
+  }
 
   return (
     <>
@@ -86,7 +100,7 @@ function Movies() {
                                   text-xl
                                   cursor-pointer
                                   "
-                        onClick={() => add(movie)}
+                        onClick={() => add(movie),()=> del(movie)}
                       >
                         😍
                       </div>
