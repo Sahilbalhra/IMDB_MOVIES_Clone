@@ -20,6 +20,12 @@ function Movies() {
   }
   useEffect(
     function () {
+        //getting fav movies form local storage
+        let oldFav=localStorage.getItem("tmdb");
+        //string to original data
+        oldFav=JSON.parse(oldFav);
+        //setting the movies for reloading file
+        setFavourites([...oldFav]);
       axios
         .get(
           `https://api.themoviedb.org/3/trending/movie/week?api_key=0bae37183e022e230d9a998151559acd&page=${page}`
@@ -27,12 +33,7 @@ function Movies() {
         .then((res) => {
         //   console.table(res.data.results);
           setMovies(res.data.results);
-          //getting fav movies form local storage
-          let oldFav=localStorage.getItem("tmdb");
-          //string to original data
-          oldFav=JSON.parse(oldFav);
-          //setting the movies for reloading file
-          setFavourites([...oldFav]);
+        
         });
     },
     [page]
@@ -100,7 +101,7 @@ function Movies() {
                                   text-xl
                                   cursor-pointer
                                   "
-                        onClick={() => add(movie),()=> del(movie)}
+                        onClick={() => add(movie)}
                       >
                         😍
                       </div>
@@ -113,7 +114,7 @@ function Movies() {
                                   text-xl
                                   cursor-pointer
                                   "
-                        onClick={() => add(movie)}
+                        onClick={() => del(movie)}
                       >
                         ❌
                       </div>

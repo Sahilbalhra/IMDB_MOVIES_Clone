@@ -1,8 +1,40 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Pagination from "./Pagination";
 
 const Favourites = () => {
+  let genreids = {
+    28: 'Action',
+    12: 'Adventure',
+    16: 'Animation', 35: 'Comedy', 80: 'Crime', 99: 'Documentary', 18: 'Drama', 10751: 'Family', 14: 'Fantasy', 36: 'History',
+    27: 'Horror', 10402: 'Music', 9648: 'Mystery', 10749: 'Romance', 878: 'Sci-Fi', 10770: 'TV', 53: 'Thriller', 10752: 'War', 37: 'Western'
+  }
   const [curGenre, setCurGenre] = useState("All Genres");
+  const [favourites, setFavourites] = useState([]);
+  const [genres, setGenres] = useState([]);
+//for local storage
+  useEffect(
+    function () {
+        //getting fav movies form local storage
+        let oldFav=localStorage.getItem("tmdb");
+        //string to original data
+        oldFav=JSON.parse(oldFav);
+        //setting the movies for reloading file
+        setFavourites([...oldFav]);
+      
+    },
+    []
+  );
+  //for genres
+  useEffect(() => {
+    let temp =favourites.filter((movie)=>genreids[movie.genre_ids[0]]);
+
+  }, [])
+  
+  let del =(movie)=>{
+    let newArray =favourites.filter((m)=>m.id!=movie.id);
+    setFavourites([...newArray]);
+    localStorage.setItem("tmdb",JSON.stringify(newArray));
+  }
   //table content
   return (
     <>
@@ -40,8 +72,8 @@ const Favourites = () => {
         />
       </div>
       {/* table */}
-      <div className="flex justify-center">
-        <div className="flex flex-col">
+     
+        <div className="flex flex-col m-4">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -122,7 +154,7 @@ const Favourites = () => {
                   </thead>
                   {/* table body */}
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredMovies.map((movie) => (
+                    {favourites.map((movie) => (
                       <tr key={movie.id}>
                         {/* movies img */}
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -177,7 +209,7 @@ const Favourites = () => {
             </div>
           </div>
         </div>
-      </div>
+      
       <Pagination />
     </>
   );
