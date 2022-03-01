@@ -23,7 +23,7 @@ function Movies() {
         //getting fav movies form local storage
         let oldFav=localStorage.getItem("tmdb");
         //string to original data
-        oldFav=JSON.parse(oldFav);
+        oldFav=JSON.parse(oldFav)|| [];
         //setting the movies for reloading file
         setFavourites([...oldFav]);
       axios
