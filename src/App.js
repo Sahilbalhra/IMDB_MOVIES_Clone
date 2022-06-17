@@ -4,8 +4,9 @@ export let globalData = createContext();
 
 function App() {
   let [playerVideo, setPlayerVideo] = useState("");
+  let [cardDetail, setCardDetail] = useState("");
   return (
-    <globalData.Provider value={{ playerVideo, setPlayerVideo }}>
+    <globalData.Provider value={{ playerVideo, setPlayerVideo,cardDetail, setCardDetail }}>
       <Home />
     </globalData.Provider>
   );

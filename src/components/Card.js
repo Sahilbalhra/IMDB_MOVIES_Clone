@@ -6,7 +6,7 @@ const Card = ({ movie }) => {
   const [hover, setHover] = useState("");
   const [favourites, setFavourites] = useState([]);
   let useMyGData = useContext(globalData);
-  let imageNotFound=`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsHAwcaJl_jPE170TrvcvzyuF27S0IWk_jJg&usqp=CAU`
+  let imageNotFound = `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsHAwcaJl_jPE170TrvcvzyuF27S0IWk_jJg&usqp=CAU`;
 
   let add = (movie) => {
     let newArray = [...favourites, movie];
@@ -23,9 +23,19 @@ const Card = ({ movie }) => {
   };
 
   return (
-    <div
-      className={`
-                      bg-[url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path?movie.backdrop_path:imageNotFound})] 
+    <Link
+      to="/detail"
+      onClick={() => {
+        useMyGData.setCardDetail(movie);
+      }}
+    >
+      <div
+        className={`
+                      bg-[url(https://image.tmdb.org/t/p/w500/${
+                        movie.backdrop_path
+                          ? movie.backdrop_path
+                          : imageNotFound
+                      })] 
                       md:h-[30vh] md:w-[250px] 
                       h-[25vh] w-[150px]
                       bg-center bg-cover
@@ -36,64 +46,65 @@ const Card = ({ movie }) => {
                       ease-out duration-300
                       relative
                   `}
-      onMouseEnter={() => {
-        setHover(movie.id);
-      }}
-      onMouseLeave={() => setHover("")}
-      // onClick={() => {
-      //   useMyGData.setPlayerVideo(movie.title);
-      // }}
-    >
-      {hover === movie.id && (
-        <>
-          {!favourites.find((m) => m.id === movie.id) ? (
-            <div
-              className="absolute top-2 right-2
+        onMouseEnter={() => {
+          setHover(movie.id);
+        }}
+        onMouseLeave={() => setHover("")}
+        // onClick={() => {
+        //   useMyGData.setPlayerVideo(movie.title);
+        // }}
+      >
+        {hover === movie.id && (
+          <>
+            {!favourites.find((m) => m.id === movie.id) ? (
+              <div
+                className="absolute top-2 right-2
                       p-2
                       bg-gray-800
                       rounded-xl
                       text-xl
                       cursor-pointer
                       "
-              onClick={() => add(movie)}
-            >
-              ❤️
-            </div>
-          ) : (
-            <div
-              className="absolute top-2 right-2
+                onClick={() => add(movie)}
+              >
+                ❤️
+              </div>
+            ) : (
+              <div
+                className="absolute top-2 right-2
                       p-2
                       bg-gray-800
                       rounded-xl
                       text-xl
                       cursor-pointer
                       "
-              onClick={() => del(movie)}
-            >
-              ❌
-            </div>
-          )}
-        </>
-      )}
-      <div className="w-full bg-gray-900 text-white py-2 rounded-b-xl flex justify-between items-center px-1 py-1">
-        <div>{movie.title?movie.title:movie.name}</div>
-        <Link
-          to="/player"
-          onClick={() => {
-            useMyGData.setPlayerVideo(movie.title?movie.title:movie.name);
-          }}
-          className="playButton"
-        >
-          <PlayCircleOutlineIcon
-            style={{
-              fontSize: "3rem",
-              color: "#ffffff",
-              opacity: ".6",
+                onClick={() => del(movie)}
+              >
+                ❌
+              </div>
+            )}
+          </>
+        )}
+        <div className="w-full bg-gray-900 text-white py-2 rounded-b-xl flex justify-between items-center px-1 py-1">
+          <div>{movie.title ? movie.title : movie.name}</div>
+          <Link
+            to="/player"
+            onClick={() => {
+              useMyGData.setPlayerVideo(movie.title ? movie.title : movie.name);
             }}
-          />
-        </Link>
+            className="playButton"
+          >
+            <PlayCircleOutlineIcon
+              style={{
+                fontSize: "3rem",
+                color: "#ffffff",
+                opacity: ".6",
+              }}
+            />
+          </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
