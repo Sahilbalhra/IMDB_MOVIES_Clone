@@ -24,6 +24,10 @@ const NavBar = () => {
       
       <Link to="/favourites" className="text-white font-bold text-xl
       md:text-3xl">Favourites</Link>
+       <Link to="/movies" className="text-white font-bold text-xl
+      md:text-3xl">Movies</Link>
+      <Link to="/tvShow" className="text-white font-bold text-xl
+      md:text-3xl">Tv Shows</Link>
     </div>
   );
 };

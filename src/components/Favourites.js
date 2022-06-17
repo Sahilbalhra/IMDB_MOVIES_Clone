@@ -27,7 +27,7 @@ const Favourites = () => {
   const [rating, setRating] = useState(0);
   const [popularity, setPopularity] = useState(0);
   const [favourites, setFavourites] = useState([]);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const [genres, setGenres] = useState([]);
   const [rows, setRows] = useState(4);
   const [curPage, setCurPage] = useState(1);
@@ -44,67 +44,68 @@ const Favourites = () => {
   useEffect(() => {
     let temp = favourites.map((movie) => genreids[movie.genre_ids[0]]);
     //removing the duplicasy
-    temp =new Set(temp);
+    temp = new Set(temp);
     setGenres(["All Genres", ...temp]);
-  }, [favourites]);
+  }, [favourites, genreids]);
 
   let del = (movie) => {
     let newArray = favourites.filter((m) => m.id !== movie.id);
     setFavourites([...newArray]);
     localStorage.setItem("tmdb", JSON.stringify(newArray));
   };
-  
-     // filtered movies 
-  let filteredMovies = []
 
-  filteredMovies = curGenre === "All Genres" ? favourites : favourites.filter((movie) => genreids[movie.genre_ids[0]] === curGenre)
+  // filtered movies
+  let filteredMovies = [];
 
-   // sorting 
-   if (rating === 1) {
+  filteredMovies =
+    curGenre === "All Genres"
+      ? favourites
+      : favourites.filter((movie) => genreids[movie.genre_ids[0]] === curGenre);
+
+  // sorting
+  if (rating === 1) {
     filteredMovies = filteredMovies.sort(function (objA, objB) {
-      return objA.vote_average - objB.vote_average
-    })
+      return objA.vote_average - objB.vote_average;
+    });
   } else if (rating === -1) {
     filteredMovies = filteredMovies.sort(function (objA, objB) {
-      return objB.vote_average - objA.vote_average
-    })
+      return objB.vote_average - objA.vote_average;
+    });
   }
 
   if (popularity === 1) {
     filteredMovies = filteredMovies.sort(function (objA, objB) {
-      return objA.popularity - objB.popularity
-    })
+      return objA.popularity - objB.popularity;
+    });
   } else if (popularity === -1) {
     filteredMovies = filteredMovies.sort(function (objA, objB) {
-      return objB.popularity - objA.popularity
-    })
+      return objB.popularity - objA.popularity;
+    });
   }
 
-  
   //searching
-  //converting them to lower case letter 
+  //converting them to lower case letter
   filteredMovies = filteredMovies.filter((movie) =>
     movie.title.toLowerCase().includes(search.toLowerCase())
-  )
+  );
   // pagination
   let maxPage = Math.ceil(filteredMovies.length / rows);
-  let si = (curPage - 1) * rows
-  let ei = Number(si) + Number(rows)
+  let si = (curPage - 1) * rows;
+  let ei = Number(si) + Number(rows);
 
   filteredMovies = filteredMovies.slice(si, ei);
 
   let goBack = () => {
     if (curPage > 1) {
-      setCurPage(curPage - 1)
+      setCurPage(curPage - 1);
     }
-  }
+  };
 
   let goAhead = () => {
     if (curPage < maxPage) {
-      setCurPage(curPage + 1)
+      setCurPage(curPage + 1);
     }
-  }
-
+  };
 
   //table content
   return (
@@ -141,13 +142,15 @@ const Favourites = () => {
         <input
           type="text"
           className="border border-3 text-center p-1 m-2 text-black rounded-xl"
-          value={search} onChange={(e)=>setSearch(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder="Search"
         />
         <input
           type="number"
           className="border border-3 text-center p-1 m-2 text-black rounded-xl"
-          value={rows} onChange={(e)=>setRows(e.target.value)}
+          value={rows}
+          onChange={(e) => setRows(e.target.value)}
           placeholder="Rows in Table"
         />
       </div>

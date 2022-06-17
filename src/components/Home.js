@@ -4,6 +4,9 @@ import Movies from "./Movies/Movies";
 import NavBar from "./NavBar/NavBar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Favourites from "./Favourites";
+import Player from "./Player";
+import TvHome from "./TvSeries/TvHome";
+import DetailPage from "./DetailPage";
 
 const Home = () => {
   return (
@@ -19,12 +22,11 @@ const Home = () => {
             </>
           }
         ></Route>
-         <Route
-          path="/favourites"
-          element={
-            <Favourites/>
-          }
-        ></Route>
+        <Route path="/player" element={<Player />} />
+        <Route path="/tvShow" element={<TvHome/>} />
+        <Route path="/movies" element={<Movies/>} />
+        <Route path="/detail" element={<DetailPage/>} />
+        <Route path="/favourites" element={<Favourites />}></Route>
       </Routes>
     </BrowserRouter>
   );
