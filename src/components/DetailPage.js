@@ -1,28 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { globalData } from "../App";
 const DetailPage = () => {
   let useMyGData = useContext(globalData);
   let imageNotFound = `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsHAwcaJl_jPE170TrvcvzyuF27S0IWk_jJg&usqp=CAU`;
-  console.log(useMyGData.cardDetail);
+  let navigate = useNavigate();
+  useEffect(()=>{
+    console.log(useMyGData.cardDetail)
+    if(useMyGData.cardDetail===undefined||useMyGData.cardDetail==="") {
+      navigate("/")
+    }
+  },[navigate,useMyGData.cardDetail])
+
   return (
     <div
-      className={`before:opacity-75 before:content-[''] before:bg-[url(https://image.tmdb.org/t/p/w500/${
+      className={`bg-[url(https://image.tmdb.org/t/p/original/${
         useMyGData.cardDetail.backdrop_path
           ? useMyGData.cardDetail.backdrop_path
           : imageNotFound
-      })] before:absolute before:z-10 mt-4 mb-4 h-[88vh] w-[100vw] bg-center bg-cover flex items-center justify-between p-20 relative`}
+      })] relative mt-4 mb-4 h-[88vh] w-[100vw] bg-center bg-cover flex items-center justify-between p-20 rounded-lg `}
+      style={{ backgroundColor:"rgba(0,0,0,0.6)" }}
     >
       <div
-        className={`relative bg-[url(https://image.tmdb.org/t/p/w500/${
+        className={`bg-[url(https://image.tmdb.org/t/p/w500/${
           useMyGData.cardDetail.poster_path
             ? useMyGData.cardDetail.poster_path
             : imageNotFound
         })]
-        h-[100%] w-[30vw] rounded-lg`}
+        h-[100%] w-[30vw] bg-center bg-cover rounded-lg`}
+        style={{ boxShadow: "rgba(0, 0, 0, 0.25) 0px 25px 50px -12px"}}
       ></div>
-      <div className="relative h-[100%] w-[100%] ml-20 items-center">
+      <div className="h-[100%] w-[100%] ml-20 items-center" >
         <div className="pt-10">
           <div className="text-4xl font-bold">
             {useMyGData.cardDetail.title
@@ -42,13 +51,12 @@ const DetailPage = () => {
                 }}
                 className="playButton"
               >
-                <button class="rounded-full bg-sky-900 p-2">
+                <button class="rounded-full bg-black pl-4 font-bold ">
                   Play Now
                   <PlayCircleOutlineIcon
                     style={{
                       fontSize: "3rem",
-                      color: "#ffffff",
-                      opacity: ".6",
+                      color: "white",
                     }}
                   />
                 </button>
