@@ -8,6 +8,8 @@ import Player from "./Player";
 import TvHome from "./TvSeries/TvHome";
 import DetailPage from "./DetailPage";
 import Home from "./Home";
+import Login from "./Login";
+import Signup from "./Signup";
 
 const MainHome = () => {
   return (
@@ -19,14 +21,16 @@ const MainHome = () => {
           element={
             <>
               <Banner />
-              <Home/>
+              <Home />
             </>
           }
         ></Route>
         <Route path="/player" element={<Player />} />
-        <Route path="/tvShow" element={<TvHome/>} />
-        <Route path="/movies" element={<Movies/>} />
-        <Route path="/detail" element={<DetailPage/>} />
+        <Route path="/tvShow" element={<TvHome />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/favourites" element={<Favourites />}></Route>
       </Routes>
     </BrowserRouter>

@@ -8,6 +8,7 @@ export let globalData = createContext();
 function App() {
   let [playerVideo, setPlayerVideo] = useState("");
   let [cardDetail, setCardDetail] = useState("");
+  // let [user,SetUser]=useState(null);
   const [action, setAction] = useState([]);
   const [adventure, setAdventure] = useState([]);
   const [anime, setAnime] = useState([]);
@@ -18,6 +19,7 @@ function App() {
   const [romance, setRomance] = useState([]);
   const [fantasy, setFantasy] = useState([]);
   const [science, setScience] = useState([]);
+
   // console.log(action);
   useEffect(() => {
     axios

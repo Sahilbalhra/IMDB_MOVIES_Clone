@@ -22,7 +22,7 @@ const NavBar = () => {
           </Link>
           <Link to="/" className="text-white font-bold 
           text-xl
-          md:text-3xl">Movies</Link>
+          md:text-3xl">MoviesWorld</Link>
       
       <Link to="/favourites" className="text-white font-bold text-xl
       md:text-3xl">Favourites</Link>

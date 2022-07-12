@@ -85,7 +85,7 @@ const Card = ({ movie }) => {
             )}
           </>
         )}
-        <div className="w-full bg-gray-900 text-white py-2 rounded-b-xl flex justify-between items-center px-1 py-1">
+        <div className="w-full bg-black text-white py-2 rounded-b-xl flex justify-between items-center px-1 py-1 font-semibold">
           <div>{movie.title ? movie.title : movie.name}</div>
           <Link
             to="/player"
