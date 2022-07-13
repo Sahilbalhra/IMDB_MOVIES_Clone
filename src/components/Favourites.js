@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import NavBar from "./NavBar/NavBar";
 import Pagination from "./Pagination";
 
 const Favourites = () => {
@@ -111,6 +112,7 @@ const Favourites = () => {
   //table content
   return (
     <>
+      <NavBar />
       <div className="mt-4 px-2 flex justify-center flex-wrap space-x-2">
         {genres.map((genre) => (
           <button

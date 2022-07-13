@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import ReactPlayer from "react-player";
 import axios from "axios";
 import { globalData } from "../App";
+import NavBar from "./NavBar/NavBar";
 
 const Player = () => {
   let useMyGData = useContext(globalData);
@@ -15,6 +16,8 @@ const Player = () => {
   }, [url]);
 
   return (
+    <>
+    <NavBar/>
     <div
       // className="mt-5"
       style={{ height: "100%", margin: "auto", width: "100%" }}
@@ -29,6 +32,7 @@ const Player = () => {
         style={{ justifyContent: "center" }}
       />
     </div>
+    </>
   );
 };
 

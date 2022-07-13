@@ -3,6 +3,7 @@ import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import Pagination from "../Pagination";
 import Card from "../Card";
+import NavBar from "../NavBar/NavBar";
 
 function Movies() {
   const [movies, setMovies] = useState([]);
@@ -39,6 +40,7 @@ function Movies() {
   );
   return (
     <>
+    <NavBar/>
       <div className="mb-8 text-center">
         <div className="mt-8 mb-8 font-bold text-2xl text-center">
           Trending Movies

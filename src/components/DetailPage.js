@@ -5,6 +5,7 @@ import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import Card from "./Card";
 import { Link, useNavigate } from "react-router-dom";
 import { globalData } from "../App";
+import NavBar from "./NavBar/NavBar";
 function SampleNextArrow(props) {
   const { className, onClick } = props;
   return (
@@ -175,6 +176,7 @@ const DetailPage = () => {
 
   return (
     <>
+    <NavBar/>
       <div
         className={`bg-[url(https://image.tmdb.org/t/p/original/${
           useMyGData.cardDetail.backdrop_path

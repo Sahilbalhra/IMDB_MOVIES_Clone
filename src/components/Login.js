@@ -1,15 +1,15 @@
-import React, { useState,useContext } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useContext,useEffect } from "react";
+import { signInWithEmailAndPassword,onAuthStateChanged,signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { globalData } from "../App";
 
 const Login = () => {
-    let useMyGData = useContext(globalData);
+  let useMyGData = useContext(globalData);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-//   const [user, setUser] = useState(null);
+  //   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     // console.log(email);
@@ -20,29 +20,40 @@ const Login = () => {
       .then((userCredential) => {
         // Signed inF
         const users = userCredential.user;
-        console.log("user is login with", users.uid);
+
         useMyGData.setUser(users);
         navigate("/");
-
+        console.log("user is login with", users.uid);
         // ...
       })
       .catch((error) => {
         // const errorCode = error.code;
         const errorMessage = error.message;
-        // console.log(errorMessage);
+        console.log(errorMessage);
         setError(errorMessage);
         // ..
       });
   };
-  //   const SignOut = async () => {
-  //     await signOut(auth);
-  //   };
+    const SignOut = async () => {
+      await signOut(auth);
+      useMyGData.setUser(null);
+
+    };
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        useMyGData.setUser(user);
+      } else {
+        useMyGData.setUser(null);
+      }
+      // setMainLoader(false);
+    });
+  }, [useMyGData]);
   return (
     <>
       {useMyGData.user ? (
-        <div>{/* {user.uid} <button onClick={SignOut}>SignOut</button> */}</div>
+        <div>{useMyGData.user.uid}<button onClick={SignOut}>SignOut</button></div>
       ) : (
-        //   <Redirect to="/" />
         <section className="h-screen">
           <div className="px-6 h-full text-white-800">
             <div className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">

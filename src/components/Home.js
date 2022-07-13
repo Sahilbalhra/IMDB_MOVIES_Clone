@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import Card from "./Card";
 import { globalData } from "../App";
+import NavBar from "./NavBar/NavBar";
+import Banner from "./Banner/Banner";
 function SampleNextArrow(props) {
   const { className, onClick } = props;
   return (
@@ -68,6 +70,8 @@ const Home = () => {
   };
   return (
     <>
+      <NavBar />
+      <Banner />
       <h2 className="text-2xl ml-4 mt-4">Action </h2>
       <Slider {...settings}>
         {useMyGData.action.map((movie) => {

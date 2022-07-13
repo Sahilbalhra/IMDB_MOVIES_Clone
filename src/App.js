@@ -1,6 +1,8 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainHome from "./components/MainHome";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 import axios from "axios";
 import { useState, createContext, useEffect } from "react";
 export let globalData = createContext();
@@ -8,7 +10,7 @@ export let globalData = createContext();
 function App() {
   let [playerVideo, setPlayerVideo] = useState("");
   let [cardDetail, setCardDetail] = useState("");
-  // let [user,SetUser]=useState(null);
+  let [user, setUser] = useState(null);
   const [action, setAction] = useState([]);
   const [adventure, setAdventure] = useState([]);
   const [anime, setAnime] = useState([]);
@@ -93,6 +95,20 @@ function App() {
         setFantasy(res.data.results);
       });
   }, []);
+  useEffect(() => {
+    //event listener
+    //we return the function so that it will remove the  listener
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+      // setMainLoader(false);
+      return unsubscribe;
+    });
+  }, []);
+
   return (
     <globalData.Provider
       value={{
@@ -110,6 +126,8 @@ function App() {
         comedy,
         horror,
         science,
+        user,
+        setUser,
       }}
     >
       <MainHome />
