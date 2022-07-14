@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-// import Banner from "./Banner/Banner";
 import Movies from "./Movies/Movies";
-// import NavBar from "./NavBar/NavBar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Favourites from "./Favourites";
 import Player from "./Player";
@@ -11,12 +9,12 @@ import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
 import { globalData } from "../App";
+import ForgotPage from "./ForgotPage";
 
 const MainHome = () => {
   let useMyGData = useContext(globalData);
   return (
     <BrowserRouter>
-      {/* <NavBar /> */}
       <Routes>
         <Route
           path="/"
@@ -24,7 +22,6 @@ const MainHome = () => {
             <>
               {useMyGData.user ? (
                 <>
-                  {/* <Banner /> */}
                   <Home />
                 </>
               ) : (
@@ -38,6 +35,7 @@ const MainHome = () => {
         <Route path="/movies" element={<Movies />} />
         <Route path="/detail" element={<DetailPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forget" element={<ForgotPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/favourites" element={<Favourites />}></Route>
       </Routes>
